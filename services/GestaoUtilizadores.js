@@ -64,7 +64,7 @@ const alunosDummy = {
     }
 }
 
-module.exports.gestaoUtilizadoresAccessPoint = process.env.GESTAO_USERS_AP || 'http://localhost:8001'; //! Colocar aqui a porta do serviço
+module.exports.gestaoUtilizadoresAccessPoint = process.env.GESTAO_USERS_AP || 'http://localhost:8001';
 module.exports.gestaoUtilizadoresRoute = (route) => this.gestaoUtilizadoresAccessPoint + route
 
 module.exports.login = async (email,password) => {

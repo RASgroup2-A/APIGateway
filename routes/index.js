@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-
 const GestaoProvas = require('../services/GestaoProvas')
 const GestaoUtilizadores = require('../services/GestaoUtilizadores')
+const GestaoSalas = require('../services/GestaoSalas')
 
 router.post('/login', function (req, res, next) {
     //! A função GestaoUtilizadores.login está improvisada
@@ -13,10 +13,10 @@ router.post('/login', function (req, res, next) {
         .then((result) => { //> result no formato {numMecanografico: string, type: string}
             res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result) });
         }).catch((err) => {
-            if(err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword'){
+            if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
                 res.status(401).jsonp({ msg: err.message });
             }
-            else{
+            else {
                 res.status(500).jsonp({ msg: err.message });
             }
         });
@@ -41,5 +41,18 @@ router.post('/provas/checkNameAndAlunos', function (req, res, next) {
             res.status(500).jsonp({ msg: err.message });
         });
 });
+
+/**
+ * Rota para solicitar propostas de calendarização tendo em conta os alunos, data+hora e duração da prova.
+ */
+router.post('/salas/calendarizacao', function (req, res, next) {
+    let { alunos, dataHora, duracao } = req.body;
+    GestaoSalas.propostasCalendarizacao(alunos, dataHora, duracao)
+        .then((result) => {
+            res.jsonp(result);
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message });
+        });
+})
 
 module.exports = router;
