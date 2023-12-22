@@ -12,7 +12,7 @@ router.post('/login', function (req, res, next) {
     GestaoUtilizadores.login(email, password)
         .then((result) => { //> result no formato {numMecanografico: string, type: string}
             console.log(result)
-            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result) , type:result.type, numero:result.numMecanografico});
+            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result) , type:result.type, numMecanografico:result.numMecanografico});
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
                 res.status(401).jsonp({ msg: err.message });

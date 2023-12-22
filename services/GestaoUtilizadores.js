@@ -55,11 +55,11 @@ const alunosDummy = {
         password: "passpg3",
         type: "aluno"
     },
-    pg4:{
-        numMecanografico: "pg4",
-        email: "pg4@di.uminho.pt",
+    a97223:{
+        numMecanografico: "a97223",
+        email: "a97223@alunos.uminho.pt",
         name: "Aluno D4",
-        password: "passpg4",
+        password: "password",
         type: "aluno"
     }
 }
