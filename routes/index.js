@@ -3,6 +3,7 @@ var router = express.Router();
 
 const GestaoProvas = require('../services/GestaoProvas')
 const GestaoUtilizadores = require('../services/GestaoUtilizadores')
+const GestaoNotificacoes = require('../services/GestaoNotificacoes')
 const GestaoSalas = require('../services/GestaoSalas')
 
 router.post('/login', function (req, res, next) {
@@ -54,6 +55,19 @@ router.post('/salas/calendarizacao', function (req, res, next) {
         }).catch((err) => {
             res.status(500).jsonp({ msg: err.message });
         });
+})
+
+
+/**
+ * Rota para filtrar notificacoes de um dado aluno.
+ */
+router.get('/notifications/:id',function(req,res,next){
+    GestaoNotificacoes.getnotifications(req.params.id)
+        .then((result) => {
+            res.jsonp(result);
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message });
+    });
 })
 
 module.exports = router;
