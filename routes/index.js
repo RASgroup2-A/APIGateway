@@ -11,7 +11,8 @@ router.post('/login', function (req, res, next) {
     let password = req.body.password;
     GestaoUtilizadores.login(email, password)
         .then((result) => { //> result no formato {numMecanografico: string, type: string}
-            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result) });
+            console.log(result)
+            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result) , type:result.type, numero:result.numMecanografico});
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
                 res.status(401).jsonp({ msg: err.message });
