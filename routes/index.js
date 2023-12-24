@@ -13,7 +13,7 @@ router.post('/login', function (req, res, next) {
     GestaoUtilizadores.login(email, password)
         .then((result) => { //> result no formato {numMecanografico: string, type: string}
             console.log(result)
-            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result) , type:result.type, numMecanografico:result.numMecanografico});
+            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result), type: result.type, numMecanografico: result.numMecanografico });
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
                 res.status(401).jsonp({ msg: err.message });
@@ -61,13 +61,32 @@ router.post('/salas/calendarizacao', function (req, res, next) {
 /**
  * Rota para filtrar notificacoes de um dado aluno.
  */
-router.get('/notifications/:id',function(req,res,next){
+router.get('/notifications/:id', function (req, res, next) {
     GestaoNotificacoes.getnotifications(req.params.id)
         .then((result) => {
             res.jsonp(result);
         }).catch((err) => {
             res.status(500).jsonp({ msg: err.message });
-    });
+        });
+})
+
+
+/**
+ * Rota para submeter uma prova
+ */
+router.post('/provas/register', function (req, res, next) {
+    let prova = req.body
+    //> Alocação de salas
+    let alocacoes = prova.versoes.map(versao => ({idSala: versao._id, data: versao.data, duracao: versao.duracao}))
+    
+    //> Criação da prova
+    GestaoProvas.registerProva(prova)
+        .then((result) => {
+            res.jsonp(result)
+        }).catch((err) => {
+            console.log(err)
+            res.status(500).jsonp({ msg: err.message });
+        });
 })
 
 module.exports = router;

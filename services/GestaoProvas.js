@@ -16,3 +16,12 @@ module.exports.checkProvaName = (provaName) => {
             throw err
         });
 }
+
+module.exports.registerProva = (prova) => {
+    return axios.post(this.gestaoProvasRoute('/provas'), prova)
+        .then((result) => {
+            return result.data
+        }).catch((err) => {
+            throw err
+        });
+}
