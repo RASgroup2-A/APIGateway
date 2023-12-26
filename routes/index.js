@@ -19,6 +19,7 @@ router.post('/login', function (req, res, next) {
                 res.status(401).jsonp({ msg: err.message });
             }
             else {
+                console.log(err.message)
                 res.status(500).jsonp({ msg: err.message });
             }
         });

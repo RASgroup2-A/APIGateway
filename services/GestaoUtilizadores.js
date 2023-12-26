@@ -67,15 +67,30 @@ const alunosDummy = {
 module.exports.gestaoUtilizadoresAccessPoint = process.env.GESTAO_USERS_AP || 'http://localhost:8001';
 module.exports.gestaoUtilizadoresRoute = (route) => this.gestaoUtilizadoresAccessPoint + route
 
-module.exports.login = async (email,password) => {
-    //! Versão temporária enquanto não se tiver serviço de utilizadores
-    let id = email.split('@')[0];
-    let user = docentesDummy[id] || alunosDummy[id];
-    if(!user){
-        throw new Error('Error: InvalidEmail');
-    } else if (user.password === password){
-        return {numMecanografico: user.numMecanografico, type: user.type};
-    } else {
-        throw new Error('Error: InvalidPassword');
-    }
+module.exports.login =  (username,email) => {
+    return axios.post(this.gestaoUtilizadoresRoute(`/users/login`), {email:email,password:email})
+        .then((result) => {
+            let resp = result.data
+            if(!resp.result){
+                return true
+            }else{
+                throw new Error('Error: InvalidUsername -> ' + username)
+            }
+        }).catch((err) => {
+            throw err
+        });
+}
+
+module.exports.checkProvaName = (provaName) => {
+    return axios.get(this.gestaoProvasRoute(`/provas/checkname?name=${provaName}`))
+        .then((result) => {
+            let resp = result.data //> formato: {result: boolean}
+            if (!resp.result) { //> O nome da prova é válido
+                return true
+            } else {
+                throw new Error('Error: InvalidProvaName -> ' + provaName)
+            }
+        }).catch((err) => {
+            throw err
+        });
 }
