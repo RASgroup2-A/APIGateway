@@ -25,3 +25,21 @@ module.exports.registerProva = (prova) => {
             throw err
         });
 }
+
+module.exports.getProvasNaoRealizadas = (numMecAluno) => {
+    return axios.get(this.gestaoProvasRoute(`/provas/alunos/${numMecAluno}/naoRealizadas`))
+        .then((result) => {
+            return result.data
+        }).catch((err) => {
+            throw err
+        });
+}
+
+module.exports.getProvasRealizadas = (numMecAluno) => {
+    return axios.get(this.gestaoProvasRoute(`/provas/alunos/${numMecAluno}/realizadas`))
+        .then((result) => {
+            return result.data
+        }).catch((err) => {
+            throw err
+        });
+}

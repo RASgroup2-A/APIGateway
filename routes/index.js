@@ -78,7 +78,7 @@ router.post('/provas/register', function (req, res, next) {
     let prova = req.body
     //> Alocação de salas
     let alocacoes = prova.versoes.map(versao => ({idSala: versao._id, data: versao.data, duracao: versao.duracao}))
-    
+    // TODO: Tratar da alocação das salas
     //> Criação da prova
     GestaoProvas.registerProva(prova)
         .then((result) => {
@@ -86,6 +86,32 @@ router.post('/provas/register', function (req, res, next) {
         }).catch((err) => {
             console.log(err)
             res.status(500).jsonp({ msg: err.message });
+        });
+})
+
+/**
+ * Obtém as provas ainda não realizadas pelo aluno
+ */
+router.get('/provas/alunos/:numMecAluno/naoRealizadas', function (req, res, next) {
+    let numMecAluno = req.params.numMecAluno
+    GestaoProvas.getProvasNaoRealizadas(numMecAluno)
+        .then((result) => {
+            res.jsonp(result)
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message })
+        });
+})
+
+/**
+ * Obtém as provas já realizadas pelo aluno
+ */
+router.get('/provas/alunos/:numMecAluno/realizadas', function (req, res, next) {
+    let numMecAluno = req.params.numMecAluno
+    GestaoProvas.getProvasRealizadas(numMecAluno)
+        .then((result) => {
+            res.jsonp(result)
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message })
         });
 })
 
