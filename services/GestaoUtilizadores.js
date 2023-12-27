@@ -7,8 +7,6 @@ module.exports.login = (email, password) => {
     return axios.post(this.gestaoUtilizadoresRoute('/users/login'), { "email": email, "password": password })
         .then((result) => {
             let resp = result.data
-            console.log("your token:")
-            console.log(resp)
             if (resp != null) {
                 return resp
             } else {

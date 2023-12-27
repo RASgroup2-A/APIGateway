@@ -12,7 +12,6 @@ router.post('/login', function (req, res, next) {
     let password = req.body.password;
     GestaoUtilizadores.login(email, password)
         .then((result) => { 
-            console.log(result)
             res.jsonp({ msg: 'Login bem sucedido!', token: result.token });
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
@@ -29,7 +28,6 @@ router.post('/register', function (req, res, next) {
     let userData = req.body
     GestaoUtilizadores.register(userData)
         .then((result) => {
-            console.log(result)
             res.jsonp({ msg: 'Registo bem sucedido!', token: result.token});
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
