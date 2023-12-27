@@ -11,9 +11,9 @@ router.post('/login', function (req, res, next) {
     let email = req.body.email;
     let password = req.body.password;
     GestaoUtilizadores.login(email, password)
-        .then((result) => { //> result no formato {numMecanografico: string, type: string}
+        .then((result) => { 
             console.log(result)
-            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result), type: result.type, numMecanografico: result.numMecanografico });
+            res.jsonp({ msg: 'Login bem sucedido!', token: result.token });
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
                 res.status(401).jsonp({ msg: err.message });
@@ -26,16 +26,11 @@ router.post('/login', function (req, res, next) {
 })
 
 router.post('/register', function (req, res, next) {
-    let email = req.body.email;
-    let username = req.body.username;
-    let name = req.body.name;
-    let numMecanografico = req.body.numMecanografico;
-    let password = req.body.password;
-    let type = req.body.type;
-    GestaoUtilizadores.register(email,name,username, password,numMecanografico,type)
-        .then((result) => { 
+    let userData = req.body
+    GestaoUtilizadores.register(userData)
+        .then((result) => {
             console.log(result)
-            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result), type: result.type, numMecanografico: result.numMecanografico });
+            res.jsonp({ msg: 'Registo bem sucedido!', token: result.token});
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
                 res.status(401).jsonp({ msg: err.message });
@@ -100,7 +95,7 @@ router.get('/notifications/:id', function (req, res, next) {
 router.post('/provas/register', function (req, res, next) {
     let prova = req.body
     //> Alocação de salas
-    let alocacoes = prova.versoes.map(versao => ({idSala: versao._id, data: versao.data, duracao: versao.duracao}))
+    let alocacoes = prova.versoes.map(versao => ({ idSala: versao._id, data: versao.data, duracao: versao.duracao }))
     // TODO: Tratar da alocação das salas
     //> Criação da prova
     GestaoProvas.registerProva(prova)
