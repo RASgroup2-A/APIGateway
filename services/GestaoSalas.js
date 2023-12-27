@@ -10,3 +10,8 @@ module.exports.propostasCalendarizacao = async (alunos, dataHora, duracao) => {
     let response = await axios.post(this.gestaoSalasRoute('/salas/calendarizacao'), body)
     return response.data
 }
+
+module.exports.alocaSalas = async (alocacoes) => {
+    let response = await axios.post(this.gestaoSalasRoute('/salas/alocar'), alocacoes)
+    return response.data
+}
