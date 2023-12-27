@@ -11,7 +11,7 @@ router.post('/login', function (req, res, next) {
     let email = req.body.email;
     let password = req.body.password;
     GestaoUtilizadores.login(email, password)
-        .then((result) => { 
+        .then((result) => {
             console.log(result)
             res.jsonp({ msg: 'Login bem sucedido!', token: result.token });
         }).catch((err) => {
@@ -30,7 +30,7 @@ router.post('/register', function (req, res, next) {
     GestaoUtilizadores.register(userData)
         .then((result) => {
             console.log(result)
-            res.jsonp({ msg: 'Registo bem sucedido!', token: result.token});
+            res.jsonp({ msg: 'Registo bem sucedido!', token: result.token });
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
                 res.status(401).jsonp({ msg: err.message });
@@ -95,12 +95,15 @@ router.get('/notifications/:id', function (req, res, next) {
 router.post('/provas/register', function (req, res, next) {
     let prova = req.body
     //> Alocação de salas
-    let alocacoes = prova.versoes.map(versao => ({ idSala: versao._id, data: versao.data, duracao: versao.duracao }))
-    // TODO: Tratar da alocação das salas
-    //> Criação da prova
-    GestaoProvas.registerProva(prova)
-        .then((result) => {
-            res.jsonp(result)
+    let alocacoes = prova.versoes.map(versao => ({ idSala: versao._id, dataHora: versao.data, duracao: versao.duracao }))
+    console.log(alocacoes) //!DEBUG
+
+    let alocaSalasPromise = GestaoSalas.alocaSalas(alocacoes)
+    let registaProvaPromise = GestaoProvas.registerProva(prova)
+
+    Promise.all([alocaSalasPromise, registaProvaPromise])
+        .then(([salasResult, provaResult]) => {
+            res.jsonp(provaResult)
         }).catch((err) => {
             console.log(err)
             res.status(500).jsonp({ msg: err.message });
