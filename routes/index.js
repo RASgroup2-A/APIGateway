@@ -25,6 +25,28 @@ router.post('/login', function (req, res, next) {
         });
 })
 
+router.post('/register', function (req, res, next) {
+    let email = req.body.email;
+    let username = req.body.username;
+    let name = req.body.name;
+    let numMecanografico = req.body.numMecanografico;
+    let password = req.body.password;
+    let type = req.body.type;
+    GestaoUtilizadores.register(email,name,username, password,numMecanografico,type)
+        .then((result) => { 
+            console.log(result)
+            res.jsonp({ msg: 'Login bem sucedido!', token: JSON.stringify(result), type: result.type, numMecanografico: result.numMecanografico });
+        }).catch((err) => {
+            if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
+                res.status(401).jsonp({ msg: err.message });
+            }
+            else {
+                console.log(err.message)
+                res.status(500).jsonp({ msg: err.message });
+            }
+        });
+})
+
 /**
  * Rota para validar o nome da prova e os dados dos alunos
  * Use cases: Criar prova, ...

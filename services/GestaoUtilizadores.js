@@ -67,12 +67,35 @@ const alunosDummy = {
 module.exports.gestaoUtilizadoresAccessPoint = process.env.GESTAO_USERS_AP || 'http://localhost:8001';
 module.exports.gestaoUtilizadoresRoute = (route) => this.gestaoUtilizadoresAccessPoint + route
 
-module.exports.login =  (username,email) => {
-    return axios.post(this.gestaoUtilizadoresRoute(`/users/login`), {email:email,password:email})
+module.exports.login =  (email,password) => {
+    return axios.post(this.gestaoUtilizadoresRoute(`/users/login`), {"email":email,"password":password})
         .then((result) => {
             let resp = result.data
+            console.log("your token:")
+            console.log(resp)
+            if(resp!=null){
+                return resp
+            }else{
+                throw new Error('Error: InvalidUsername -> ' + username)
+            }
+        }).catch((err) => {
+            throw err
+        });
+}
+
+module.exports.register =  (email,name,username, password,numMecanografico,type) => {
+    return axios.post(this.gestaoUtilizadoresRoute(`/users/register`),
+    {   
+        "username": username,
+        "name": name,
+        "numMecanografico": numMecanografico,
+        "email":email,
+        "password":password,	
+        "type": type
+    }).then((result) => {
+            let resp = result.data
             if(!resp.result){
-                return true
+                return resp
             }else{
                 throw new Error('Error: InvalidUsername -> ' + username)
             }
