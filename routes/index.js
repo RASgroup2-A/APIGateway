@@ -90,7 +90,7 @@ router.get('/salas', function (req, res, next) {
  */
 router.delete('/salas/:idSala', function (req, res, next) {
     let id_sala = req.params.idSala;
-    SalasController.removeSala(id_sala)
+    GestaoSalas.removeSala(id_sala)
         .then((result) => {
             res.jsonp(result)
             }).catch((err) => {
