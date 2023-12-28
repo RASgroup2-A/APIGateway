@@ -43,3 +43,12 @@ module.exports.getProvasRealizadas = (numMecAluno) => {
             throw err
         });
 }
+
+module.exports.registerResolucao = (resolucao) => {
+    return axios.post(this.gestaoProvasRoute('/provas/resolucoes'), resolucao)
+    .then((result) => {
+        return result.data
+    }).catch((err) => {
+        throw err
+    });
+}

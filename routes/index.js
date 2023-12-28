@@ -158,4 +158,17 @@ router.get('/provas/alunos/:numMecAluno/realizadas', function (req, res, next) {
         });
 })
 
+/**
+ * Regista a resolução de um alunos
+ */
+router.post('/provas/resolucoes', function (req, res, next) {
+    let resolucao = req.body
+    GestaoProvas.registerResolucao(resolucao)
+        .then((result) => {
+            res.jsonp(result)
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message })
+        });
+})
+
 module.exports = router;
