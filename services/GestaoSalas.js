@@ -15,3 +15,8 @@ module.exports.alocaSalas = async (alocacoes) => {
     let response = await axios.post(this.gestaoSalasRoute('/salas/alocar'), alocacoes)
     return response.data
 }
+
+module.exports.getAllSalas = async () => {
+    let response = await axios.get(this.gestaoSalasRoute('/salas'))
+    return response.data
+}

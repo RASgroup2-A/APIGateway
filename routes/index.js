@@ -11,7 +11,7 @@ router.post('/login', function (req, res, next) {
     let email = req.body.email;
     let password = req.body.password;
     GestaoUtilizadores.login(email, password)
-        .then((result) => { 
+        .then((result) => {
             res.jsonp({ msg: 'Login bem sucedido!', token: result.token });
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
@@ -28,7 +28,7 @@ router.post('/register', function (req, res, next) {
     let userData = req.body
     GestaoUtilizadores.register(userData)
         .then((result) => {
-            res.jsonp({ msg: 'Registo bem sucedido!', token: result.token});
+            res.jsonp({ msg: 'Registo bem sucedido!', token: result.token });
         }).catch((err) => {
             if (err.message === 'Error: InvalidEmail' || err.message === 'Error: InvalidPassword') {
                 res.status(401).jsonp({ msg: err.message });
@@ -73,6 +73,17 @@ router.post('/salas/calendarizacao', function (req, res, next) {
         });
 })
 
+/**
+ * Rota para obter todas as salas
+ */
+router.get('/salas', function (req, res, next) {
+    GestaoSalas.getAllSalas()
+        .then((result) => {
+            res.jsonp(result);
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message });
+        });
+})
 
 /**
  * Rota para filtrar notificacoes de um dado aluno.
