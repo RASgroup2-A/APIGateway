@@ -86,6 +86,19 @@ router.get('/salas', function (req, res, next) {
 })
 
 /**
+ * >Rota para eliminar uma sala
+ */
+router.delete('/salas/:idSala', function (req, res, next) {
+    let id_sala = req.params.idSala;
+    SalasController.removeSala(id_sala)
+        .then((result) => {
+            res.jsonp(result)
+            }).catch((err) => {
+                res.status(500).jsonp({ msg: err.message })
+        });
+});
+
+/**
  * Rota para filtrar notificacoes de um dado aluno.
  */
 router.get('/notifications/:id', function (req, res, next) {

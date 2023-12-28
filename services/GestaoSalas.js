@@ -20,3 +20,7 @@ module.exports.getAllSalas = async () => {
     let response = await axios.get(this.gestaoSalasRoute('/salas'))
     return response.data
 }
+
+module.exports.removeSala = async (idSala) => {
+    return await Salas.collection.deleteOne({ _id: idSala});
+}
