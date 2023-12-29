@@ -31,15 +31,10 @@ module.exports.register = (userData) => {
         });
 }
 
-module.exports.checkProvaName = (provaName) => {
-    return axios.get(this.gestaoProvasRoute(`/provas/checkname?name=${provaName}`))
+module.exports.getUsers = () => {
+    return axios.get(this.gestaoUtilizadoresRoute('/users'))
         .then((result) => {
-            let resp = result.data //> formato: {result: boolean}
-            if (!resp.result) { //> O nome da prova é válido
-                return true
-            } else {
-                throw new Error('Error: InvalidProvaName -> ' + provaName)
-            }
+            return result.data
         }).catch((err) => {
             throw err
         });

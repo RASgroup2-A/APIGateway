@@ -40,6 +40,15 @@ router.post('/register', function (req, res, next) {
         });
 })
 
+router.get('/users', function (req, res, next) {
+    GestaoUtilizadores.getUsers()
+        .then((result) => {
+            res.jsonp(result);
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message });
+        })
+});
+
 /**
  * Rota para validar o nome da prova e os dados dos alunos
  * Use cases: Criar prova, ...

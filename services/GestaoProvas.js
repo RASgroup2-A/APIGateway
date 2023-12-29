@@ -52,3 +52,17 @@ module.exports.registerResolucao = (resolucao) => {
         throw err
     });
 }
+
+module.exports.checkProvaName = (provaName) => {
+    return axios.get(this.gestaoProvasRoute(`/provas/checkname?name=${provaName}`))
+        .then((result) => {
+            let resp = result.data //> formato: {result: boolean}
+            if (!resp.result) { //> O nome da prova é válido
+                return true
+            } else {
+                throw new Error('Error: InvalidProvaName -> ' + provaName)
+            }
+        }).catch((err) => {
+            throw err
+        });
+}
