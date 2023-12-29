@@ -122,10 +122,12 @@ router.post('/provas/register', function (req, res, next) {
 
     let alocaSalasPromise = GestaoSalas.alocaSalas(alocacoes)
     let registaProvaPromise = GestaoProvas.registerProva(prova)
+    console.log(prova)
 
     Promise.all([alocaSalasPromise, registaProvaPromise])
         .then(([salasResult, provaResult]) => {
             res.jsonp(provaResult)
+            //if(provaResult.acknowledged==true) GestaoNotificacoes.sendnotifications(prova.nome,prova.versoes)
         }).catch((err) => {
             console.log(err)
             res.status(500).jsonp({ msg: err.message });
