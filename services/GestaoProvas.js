@@ -44,6 +44,15 @@ module.exports.getProvasRealizadas = (numMecAluno) => {
         });
 }
 
+module.exports.getResolucoesAlunoProva = (numMecAluno,idProva) => {
+    return axios.get(this.gestaoProvasRoute(`/provas/resolucoes/aluno/${numMecAluno}/${idProva}`))
+        .then((result) => {
+            return result.data
+        }).catch((err) => {
+            throw err
+        });
+}
+
 module.exports.registerResolucao = (resolucao) => {
     return axios.post(this.gestaoProvasRoute('/provas/resolucoes'), resolucao)
     .then((result) => {

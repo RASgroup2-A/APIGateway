@@ -170,6 +170,20 @@ router.get('/provas/alunos/:numMecAluno/realizadas', function (req, res, next) {
 })
 
 /**
+ * Obtém as resolucoes de uma aluno a uma prova
+ */
+ router.get('/provas/resolucoes/aluno/:numMecAluno/:idProva', function (req, res, next) {
+    let numMecAluno = req.params.numMecAluno
+    let idProva = req.params.idProva
+    GestaoProvas.getResolucoesAlunoProva(numMecAluno,idProva)
+        .then((result) => {
+            res.jsonp(result)
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message })
+        });
+})
+
+/**
  * Regista a resolução de um alunos
  */
 router.post('/provas/resolucoes', function (req, res, next) {
