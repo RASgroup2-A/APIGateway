@@ -38,10 +38,20 @@ module.exports.getProvasNaoRealizadas = (numMecAluno) => {
 module.exports.getProvasRealizadas = (numMecAluno) => {
     return axios.get(this.gestaoProvasRoute(`/provas/alunos/${numMecAluno}/realizadas`))
         .then((result) => {
+            console.log(result)
             return result.data
         }).catch((err) => {
             throw err
-        });
+    });
+}
+
+module.exports.getQuestoes = (idProva,versao) => {
+    return axios.get(this.gestaoProvasRoute(`/provas/questoes/${idProva}/${versao}`))
+        .then((result) => {
+            return result.data
+        }).catch((err) => {
+            throw err
+    });
 }
 
 module.exports.getResolucoesAlunoProva = (numMecAluno,idProva) => {

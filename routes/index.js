@@ -180,7 +180,21 @@ router.get('/provas/alunos/:numMecAluno/realizadas', function (req, res, next) {
             res.jsonp(result)
         }).catch((err) => {
             res.status(500).jsonp({ msg: err.message })
-        });
+    });
+})
+
+/**
+ * Obtém as questoes de uma prova de uma dada versao
+ */
+router.get('/provas/questoes/:id/:versao',function(req,res,next){
+    let idProva = req.params.id
+    let versao = req.params.versao
+    GestaoProvas.getQuestoes(idProva,versao)
+        .then((result) => {
+            res.jsonp(result)
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message })
+    });
 })
 
 /**
