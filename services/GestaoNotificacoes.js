@@ -30,7 +30,11 @@ module.exports.sendnotifications = (prova,versoes) => {
         };
         alunos.push(aluno)
     });
-    let notificacao = {"prova":prova,"alunos":alunos}
+    let notificacao = {
+        "prova":prova,
+        "alunos":alunos
+    };
+    //console.log(notificacao);
     return axios.post(this.gestaoNotificacoesRoute(`/notifications/newprova`),notificacao)
             .then((result) => {
                 return result.data
