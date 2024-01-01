@@ -39,3 +39,12 @@ module.exports.getUsers = () => {
             throw err
         });
 }
+
+module.exports.verifyUser = (numMecanografico) => {
+    return axios.get(this.gestaoUtilizadoresRoute(`/users/alunos/verify/${numMecanografico}`))
+        .then((result) => {
+            return result.data
+        }).catch((err) => {
+            throw err
+        });
+}

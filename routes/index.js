@@ -7,7 +7,6 @@ const GestaoNotificacoes = require('../services/GestaoNotificacoes')
 const GestaoSalas = require('../services/GestaoSalas')
 
 router.post('/login', function (req, res, next) {
-    //! A função GestaoUtilizadores.login está improvisada
     let email = req.body.email;
     let password = req.body.password;
     GestaoUtilizadores.login(email, password)
@@ -48,6 +47,16 @@ router.get('/users', function (req, res, next) {
             res.status(500).jsonp({ msg: err.message });
         })
 });
+
+router.get('/users/alunos/verify/:numMecanografico', function (req, res, next) {
+    let numAluno = req.params["numMecanografico"]
+    GestaoUtilizadores.verifyUser(numAluno)
+        .then((result) => {
+            res.jsonp(result);
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message });
+        })
+})
 
 /**
  * Rota para validar o nome da prova e os dados dos alunos
