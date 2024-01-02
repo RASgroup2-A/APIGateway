@@ -41,7 +41,7 @@ module.exports.getUsers = () => {
 }
 
 module.exports.verifyUser = (numMecanografico) => {
-    return axios.get(this.gestaoUtilizadoresRoute(`/users/alunos/verify/${numMecanografico}`))
+    return axios.get(this.gestaoUtilizadoresRoute(`/users/alunos/${numMecanografico}`))
         .then((result) => {
             return result.data
         }).catch((err) => {

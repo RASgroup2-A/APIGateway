@@ -48,7 +48,7 @@ router.get('/users', function (req, res, next) {
         })
 });
 
-router.get('/users/alunos/verify/:numMecanografico', function (req, res, next) {
+router.get('/users/alunos/:numMecanografico', function (req, res, next) {
     let numAluno = req.params["numMecanografico"]
     GestaoUtilizadores.verifyUser(numAluno)
         .then((result) => {
