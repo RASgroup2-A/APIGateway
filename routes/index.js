@@ -79,17 +79,6 @@ router.post('/provas/checkNameAndAlunos', function (req, res, next) {
     }).catch((err) => {
         res.status(500).jsonp({ msg: err.message });
     });
-    // GestaoProvas.checkProvaName(provaName)
-    //     .then((result) => {
-    //         if (result) { //> result é booleano (true se o nome é válido)
-    //             //! TODO: Fazer aqui a verificação dos dados dos alunos à GESTÃO DE UTILIZADORES
-    //             res.jsonp({ msg: 'NÃO IMPLEMENTADO!!!!!!!' }) //! tirar isto quando se implementar a verificação de alunos
-    //         } else {
-    //             res.status(400).jsonp({ msg: `Error: InvalidProvaName -> '${provaName}'` });
-    //         }
-    //     }).catch((err) => { //> Caso haja uma resposta de erro por parte da gestão de provas
-    //         res.status(500).jsonp({ msg: err.message });
-    //     });
 });
 
 /**
