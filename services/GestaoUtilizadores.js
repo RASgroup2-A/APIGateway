@@ -48,3 +48,12 @@ module.exports.verifyUser = (numMecanografico) => {
             throw err
         });
 }
+
+module.exports.verifyAlunos = (numMecanograficos) => {
+    return axios.post(this.gestaoUtilizadoresRoute('/users/alunos/verify'), numMecanograficos)
+        .then((result) => {
+            return result.data['result']
+        }).catch((err) => {
+            throw err
+        });
+}

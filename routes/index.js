@@ -65,17 +65,31 @@ router.get('/users/alunos/:numMecanografico', function (req, res, next) {
 router.post('/provas/checkNameAndAlunos', function (req, res, next) {
     let provaName = req.body.provaName;
     let alunos = req.body.alunos;
-    GestaoProvas.checkProvaName(provaName)
-        .then((result) => {
-            if (result) { //> result é booleano (true se o nome é válido)
-                //! TODO: Fazer aqui a verificação dos dados dos alunos à GESTÃO DE UTILIZADORES
-                res.jsonp({ msg: 'NÃO IMPLEMENTADO!!!!!!!' }) //! tirar isto quando se implementar a verificação de alunos
-            } else {
-                res.status(400).jsonp({ msg: `Error: InvalidProvaName -> '${provaName}'` });
-            }
-        }).catch((err) => { //> Caso haja uma resposta de erro por parte da gestão de provas
-            res.status(500).jsonp({ msg: err.message });
-        });
+    let verifAlunos = GestaoUtilizadores.verifyAlunos(alunos)
+    let verifProvaName = GestaoProvas.checkProvaName(provaName)
+    Promise.all([verifProvaName, verifAlunos])
+    .then(([rPName, rAlunos]) => {
+        if(!rPName){ //> Nome de prova inválido 
+            res.status(400).jsonp({ msg: `Error: InvalidProvaName -> '${provaName}'` });
+        } else if(!rAlunos){ //> Números de alunos inválidos
+            res.status(400).jsonp({ msg: `Error: Ficheiro de alunos com alunos inválidos/inexistentes` });
+        } else { //> Tudo bem
+            res.sendStatus(200)
+        }
+    }).catch((err) => {
+        res.status(500).jsonp({ msg: err.message });
+    });
+    // GestaoProvas.checkProvaName(provaName)
+    //     .then((result) => {
+    //         if (result) { //> result é booleano (true se o nome é válido)
+    //             //! TODO: Fazer aqui a verificação dos dados dos alunos à GESTÃO DE UTILIZADORES
+    //             res.jsonp({ msg: 'NÃO IMPLEMENTADO!!!!!!!' }) //! tirar isto quando se implementar a verificação de alunos
+    //         } else {
+    //             res.status(400).jsonp({ msg: `Error: InvalidProvaName -> '${provaName}'` });
+    //         }
+    //     }).catch((err) => { //> Caso haja uma resposta de erro por parte da gestão de provas
+    //         res.status(500).jsonp({ msg: err.message });
+    //     });
 });
 
 /**
