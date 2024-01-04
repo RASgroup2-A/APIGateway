@@ -222,4 +222,18 @@ router.post('/provas/resolucoes', function (req, res, next) {
         });
 })
 
+/**
+* faz a classificação automatica
+*/
+router.post('/provas/:idProva/resolucoes/correcaoAuto', function (req, res, next) {
+    let idProva = req.params.idProva
+    GestaoProvas.corrigeProva(idProva)
+        .then((_) => {
+            res.jsonp({ msg: `Prova: ${idProva} corrigida com sucesso!` })
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message });
+        });
+
+})
+
 module.exports = router;

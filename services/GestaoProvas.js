@@ -85,3 +85,17 @@ module.exports.checkProvaName = (provaName) => {
             throw err
         });
 }
+
+module.exports.corrigeProva = (idProva) => {
+    return axios.get(this.gestaoProvasRoute(`/provas/${idProva}/resolucoes/correcaoAuto`))
+        .then((result) => {
+            let resp = result.data //> formato: {result: boolean}
+            if (!resp.result) { //> O nome da prova é válido
+                return true
+            } else {
+                throw new Error('Error: Classificacao falhou -> ' + idProva)
+            }
+        }).catch((err) => {
+            throw err
+        });
+}
