@@ -225,7 +225,7 @@ router.post('/provas/resolucoes', function (req, res, next) {
 /**
 * faz a classificação automatica
 */
-router.post('/provas/:idProva/resolucoes/correcaoAuto', function (req, res, next) {
+router.get('/provas/:idProva/resolucoes/correcaoAuto', function (req, res, next) {
     let idProva = req.params.idProva
     GestaoProvas.corrigeProva(idProva)
         .then((_) => {
