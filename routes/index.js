@@ -236,4 +236,15 @@ router.get('/provas/:idProva/resolucoes/correcaoAuto', function (req, res, next)
 
 })
 
+router.get('/provas/docente/:idDocente', function (req, res, next) {
+    let idDocente = req.params.idDocente
+    GestaoProvas.getProvasOfDocente(idDocente)
+        .then((result) => {
+            res.jsonp(result)
+        }).catch((err) => {
+            res.status(500).jsonp({ msg: err.message });
+        });
+
+})
+
 module.exports = router;

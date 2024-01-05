@@ -3,6 +3,15 @@ const axios = require('axios');
 module.exports.gestaoProvasAccessPoint = process.env.GESTAO_PROVAS_AP || 'http://localhost:7777';
 module.exports.gestaoProvasRoute = (route) => this.gestaoProvasAccessPoint + route
 
+module.exports.getProvasOfDocente = (idDocente) => {
+    return axios.get(this.gestaoProvasRoute(`/provas/docente/${idDocente}`))
+        .then((result) => {
+            return result.data
+        }).catch((err) => {
+            throw err
+        });
+}
+
 module.exports.checkProvaName = (provaName) => {
     return axios.get(this.gestaoProvasRoute(`/provas/checkname?name=${provaName}`))
         .then((result) => {
